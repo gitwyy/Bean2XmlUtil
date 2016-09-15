@@ -12,13 +12,13 @@ public class GeneralParseHandler extends AbstractParseHandler{
 		Element rootEle = factory.createElement(request.getRootName());
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
+			field.setAccessible(true);
 			XMLCell xmlCell = field.getAnnotation(XMLCell.class);
 			if(xmlCell != null && xmlCell.ignore()) continue;
 			Class<?> type = field.getType();
 			//如果是基本数据类型可以进行封装了。
 			if(Util.isBaseDataType(type)){
 				Element element = factory.createElement(field.getName());
-				field.setAccessible(true);
 				Object object;
 				try {
 					object = field.get(obj);
@@ -40,12 +40,15 @@ public class GeneralParseHandler extends AbstractParseHandler{
 				}else{
 					newRequest.setLevel(Level.DEFAULT);
 					newRequest.setRootName(field.getName());
-					try {
-						newRequest.setTarget(field.get(obj));
-						rootEle.add(dispatcher.doDispatch(newRequest));
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						e.printStackTrace();
+				}
+				try {
+					newRequest.setTarget(field.get(obj));
+					Element disEle = dispatcher.doDispatch(newRequest);
+					if(disEle!=null){
+						rootEle.add(disEle);
 					}
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
 				}
 			}
 		}

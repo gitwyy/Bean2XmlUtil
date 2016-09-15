@@ -7,12 +7,12 @@ public class HandlerChain {
 	private List<AbstractParseHandler> chain;
 
 	public void addHandler(AbstractParseHandler handler) {
-		if (chain == null) {
+		if (chain == null || chain.isEmpty()) {
 			chain = new ArrayList<AbstractParseHandler>();
 			chain.add(handler);
 		} else {
-			chain.add(handler);
 			AbstractParseHandler parseHandler = chain.get(chain.size() - 1);
+			chain.add(handler);
 			parseHandler.setNextHandler(handler);
 		}
 	}

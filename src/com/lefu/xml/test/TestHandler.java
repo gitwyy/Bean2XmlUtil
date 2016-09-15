@@ -1,6 +1,8 @@
 package com.lefu.xml.test;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -42,7 +44,10 @@ public class TestHandler {
 		person.setAge(11);
 		person.setGender("aaa");
 		person.setName("bbb");
-		
+		List<TestPerson> list = new ArrayList<TestPerson>();
+		list.add(new TestPerson());
+		list.add(new TestPerson());
+		person.setList(list);
 		XmlParseDispatcher xmlParseDispatcher = new XmlParseDispatcher();
 		
 		HandlerChain chain = new HandlerChain();

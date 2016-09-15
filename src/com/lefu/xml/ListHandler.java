@@ -34,6 +34,7 @@ public class ListHandler extends AbstractParseHandler{
 						newRequest.setLevel(Level.COMPLEX);
 					}
 					newRequest.setRootName(object.getClass().getAnnotation(XMLCell.class).value());
+					newRequest.setTarget(object);
 					element = dispatcher.doDispatch(newRequest);
 				}
 				rootEle.add(element);
